@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字统计</title>
+</head>
+<body class="m-4">
+<div class="max-w-xl ml-auto mr-auto">
+    <p class="text-center text-2xl">
+        统计数字出现的次数
+    </p>
+    <br>
+    <label class="block text-sm font-bold leading-6 text-gray-500">输入数据</label>
+    <textarea class="txa" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
+    <br>
+    <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
+    <div class="flex flex-row gap-2 items-center mt-2">
+        <div class="grow"><input type="number" id="min" value="1" class="ipt"/></div>
+        <div>~</div>
+        <div class="grow"><input type="number" id="max" value="49" class="ipt"/></div>
+    </div>
+    <br>
+    <div class="flex flex-row gap-2">
+        <button id="btn-start" class="btn-primary">开始统计</button>
+        <button id="btn-reset" class="btn-reset">清空</button>
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+        作者：<a href="https://www.microanswer.cn/" target="_blank">Microanswer</a>
+    </div>
+    <br>
+    <label id="resultTitle" class="block text-sm font-bold leading-6 text-gray-500"></label>
+    <div id="resultMsg" class="break-all w-full text-sm text-emerald-700 mt-2 px-2 py-1.5 border rounded-md shadow-sm">
+
+    </div>
+</div>
+</body>
+</html>
