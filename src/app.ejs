@@ -12,22 +12,41 @@
     </p>
     <br>
     <label class="block text-sm font-bold leading-6 text-gray-500">输入数据</label>
-    <textarea class="txa" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
+    <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
     <br>
     <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
     <div class="flex flex-row gap-2 items-center mt-2">
-        <div class="grow"><input type="number" id="min" value="1" class="ipt"/></div>
+        <div class="grow"><input type="number" id="min" value="1" class="input input-bordered w-full max-w-xs"/></div>
         <div>~</div>
-        <div class="grow"><input type="number" id="max" value="49" class="ipt"/></div>
+        <div class="grow"><input type="number" id="max" value="49" class="input input-bordered w-full max-w-xs"/></div>
     </div>
     <br>
     <div class="flex flex-row gap-2">
-        <button id="btn-start" class="btn-primary">开始统计</button>
-        <button id="btn-reset" class="btn-reset">清空</button>
+        <button id="btn-start" class="btn btn-primary grow">开始统计</button>
+        <button id="btn-reset" class="btn btn-error grow">清空</button>
     </div>
     <div class="text-sm text-gray-500 mt-2">
         作者：<a href="https://www.microanswer.cn/" target="_blank">Microanswer</a>
     </div>
+
+    <div role="alert" class="alert mt-2">
+        <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                class="stroke-info h-6 w-6 shrink-0">
+            <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <div>
+            <h3 class="font-bold">请注意</h3>
+            <div class="text-xs">本工具仅用作学习交流严禁用于任何非法使用，导致的任何财产、利益损失与作者无关。</div>
+        </div>
+    </div>
+
     <br>
     <label id="resultTitle" class="block text-sm font-bold leading-6 text-gray-500"></label>
     <div id="resultMsg" class="break-all w-full text-sm text-emerald-700 mt-2 px-2 py-1.5 border rounded-md shadow-sm">

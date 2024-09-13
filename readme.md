@@ -13,6 +13,8 @@ npm run dev
 npm run build
 ```
 
+内置了 daysyUI 作为界面ui库，点击前往: [daysyUI](https://daisyui.com/components/)。
+
 
 ### 1、编写代码
 
