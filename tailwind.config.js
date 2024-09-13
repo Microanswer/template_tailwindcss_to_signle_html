@@ -9,7 +9,7 @@ module.exports = {
     ],
     daisyui: {
         themes: ["light"],
-        base: false,
+        base: true,
         styled: true,
         utils: false,
         logs: false
