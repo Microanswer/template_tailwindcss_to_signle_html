@@ -10,25 +10,6 @@
     <p class="text-center text-2xl">
         统计数字出现的次数
     </p>
-    <br>
-    <label class="block text-sm font-bold leading-6 text-gray-500">输入数据</label>
-    <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
-    <br>
-    <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
-    <div class="flex flex-row gap-2 items-center mt-2">
-        <div class="grow"><input type="number" id="min" value="1" class="input input-bordered w-full max-w-xs"/></div>
-        <div>~</div>
-        <div class="grow"><input type="number" id="max" value="49" class="input input-bordered w-full max-w-xs"/></div>
-    </div>
-    <br>
-    <div class="flex flex-row gap-2">
-        <button id="btn-start" class="btn btn-primary grow">开始统计</button>
-        <button id="btn-reset" class="btn btn-error grow">清空</button>
-    </div>
-    <div class="text-sm text-gray-500 mt-2">
-        作者：<a href="https://www.microanswer.cn/" target="_blank">Microanswer</a>
-    </div>
-
     <div role="alert" class="alert mt-2">
         <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -45,6 +26,23 @@
             <h3 class="font-bold">请注意</h3>
             <div class="text-xs">本工具仅用作学习交流严禁用于任何非法使用，导致的任何财产、利益损失与作者无关。</div>
         </div>
+    </div>
+    <label class="block text-sm font-bold leading-6 text-gray-500 mt-2">输入数据</label>
+    <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
+    <br>
+    <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
+    <div class="flex flex-row gap-2 items-center mt-2">
+        <div class="grow"><input type="number" id="min" value="1" class="input input-bordered w-full max-w-xs"/></div>
+        <div>~</div>
+        <div class="grow"><input type="number" id="max" value="49" class="input input-bordered w-full max-w-xs"/></div>
+    </div>
+    <br>
+    <div class="flex flex-row gap-2">
+        <button id="btn-start" class="btn btn-primary grow">开始统计</button>
+        <button id="btn-reset" class="btn btn-error grow">清空</button>
+    </div>
+    <div class="text-sm text-gray-500 mt-2">
+        作者：<a href="https://www.microanswer.cn/" target="_blank">Microanswer</a>
     </div>
 
     <br>
