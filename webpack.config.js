@@ -54,7 +54,13 @@ module.exports = {
             scriptLoading: "blocking",
             inject: true
         }),
-        new HtmlInlineScriptPlugin(),
-        new HtmlInlineCssPlugin.default()
+        new HtmlInlineCssPlugin.default(),
+        ...(function() {
+            let productionPlugin = [];
+            if (process.env.NODE_ENV === "production") {
+                productionPlugin.push(new HtmlInlineScriptPlugin());
+            }
+            return productionPlugin
+        })()
     ]
 }
