@@ -3,7 +3,7 @@ var resultMsgDom = document.querySelector("#resultMsg");
 var textareaInDom = document.querySelector("#textareaIn");
 var minDom = document.querySelector("#min");
 var maxDom = document.querySelector("#max");
-var desc = "输入你的数字，再输入统计范围，开始统计即可得出结果。支持小数数字。";
+var desc = "输入你的数字，再输入统计范围，开始统计即可得出结果。";
 
 function printResult(title, msg) {
     resultTitleDom.textContent = title;
@@ -15,6 +15,8 @@ function numberTime() {
     try {
         printResult("", "");
 
+        var noDotNumber = document.querySelector("#noDotNumber").checked;
+
         var textIn = textareaInDom.value;
 
         var min = parseFloat(minDom.value);
@@ -25,7 +27,13 @@ function numberTime() {
         }
 
         var unnumbers = [];
-        var numbers = textIn.match(/[0-9]+(\.[0-9]+)?/g);
+        var numbers;
+
+        if (noDotNumber) {
+            numbers = textIn.match(/[0-9]+/g);
+        } else {
+            numbers = textIn.match(/[0-9]+(\.[0-9]+)?/g);
+        }
         if (!numbers || numbers.length <= 0) {
             printResult("输入错误：", "你输入的数据中没有数字。");
             return;

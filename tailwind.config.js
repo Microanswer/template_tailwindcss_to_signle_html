@@ -11,7 +11,7 @@ module.exports = {
         themes: ["light"],
         base: true,
         styled: true,
-        utils: false,
+        utils: true,
         logs: false
     }
 }

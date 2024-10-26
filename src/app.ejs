@@ -31,15 +31,18 @@
     <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
     <br>
     <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
-    <div class="flex flex-row gap-2 items-center mt-2">
-        <div class="grow"><input type="number" id="min" value="1" class="input input-bordered w-full max-w-xs"/></div>
+    <div class="flex flex-row gap-2 items-center mt-2 mb-2">
+        <div class="grow"><input type="number" id="min" value="1" class="input input-sm input-bordered w-full max-w-xs"/></div>
         <div>~</div>
-        <div class="grow"><input type="number" id="max" value="49" class="input input-bordered w-full max-w-xs"/></div>
+        <div class="grow"><input type="number" id="max" value="49" class="input input-sm input-bordered w-full max-w-xs"/></div>
     </div>
-    <br>
-    <div class="flex flex-row gap-2">
-        <button id="btn-start" class="btn btn-primary grow">开始统计</button>
-        <button id="btn-reset" class="btn btn-error grow">清空</button>
+    <label class="label cursor-pointer inline-flex gap-2">
+        <input type="checkbox" checked="checked" class="checkbox checkbox-info" id="noDotNumber" />
+        <span class="label-text">不包含小数</span>
+    </label>
+    <div class="flex flex-row gap-2 mt-2">
+        <button id="btn-start" class="btn btn-primary w-1/2">开始统计</button>
+        <button id="btn-reset" class="btn btn-error w-1/2">清空</button>
     </div>
     <div class="text-sm text-gray-500 mt-2">
         作者：<a href="https://www.microanswer.cn/" target="_blank">Microanswer</a>
