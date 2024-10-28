@@ -15,7 +15,7 @@ function numberTime() {
     try {
         printResult("", "");
 
-        var noDotNumber = document.querySelector("#noDotNumber").checked;
+        var hasDotNumber = document.querySelector("#hasDotNumber").checked;
 
         var textIn = textareaInDom.value;
 
@@ -29,10 +29,10 @@ function numberTime() {
         var unnumbers = [];
         var numbers;
 
-        if (noDotNumber) {
-            numbers = textIn.match(/[0-9]+/g);
-        } else {
+        if (hasDotNumber) {
             numbers = textIn.match(/[0-9]+(\.[0-9]+)?/g);
+        } else {
+            numbers = textIn.match(/[0-9]+/g);
         }
         if (!numbers || numbers.length <= 0) {
             printResult("输入错误：", "你输入的数据中没有数字。");
