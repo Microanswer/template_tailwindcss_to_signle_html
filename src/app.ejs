@@ -27,19 +27,66 @@
             <div class="text-xs">本工具仅用作学习交流严禁用于任何非法使用，导致的任何财产、利益损失与作者无关。</div>
         </div>
     </div>
-    <label class="block text-sm font-bold leading-6 text-gray-500 mt-2">输入数据</label>
+
+    <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">输入数据</label>
     <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
-    <br>
-    <label class="block text-sm font-bold leading-6 text-gray-500">输入统计范围</label>
-    <div class="flex flex-row gap-2 items-center mt-2 mb-2">
-        <div class="grow"><input type="number" id="min" value="1" class="input input-sm input-bordered w-full max-w-xs"/></div>
-        <div>~</div>
-        <div class="grow"><input type="number" id="max" value="49" class="input input-sm input-bordered w-full max-w-xs"/></div>
+
+    <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">统计范围</label>
+    <div class="flex flex-col gap-2 mt-2">
+
+        <div class="flex flex-row flex-wrap gap-2">
+
+            <label class="label gap-2 bg-gray-50 border rounded-lg px-3 num-area">
+                <input type="radio" class="radio radio-xs" name="numberArea" checked value="0,50"/>
+                <span class="label-text text-gray-500">0~50</span>
+            </label>
+            <label class="label gap-2 bg-gray-50 border rounded-lg px-3 num-area">
+                <input type="radio" class="radio radio-xs" name="numberArea" value="1,50"/>
+                <span class="label-text text-gray-500">1~50</span>
+            </label>
+            <label class="label gap-2 bg-gray-50 border rounded-lg px-3 num-area">
+                <input type="radio" class="radio radio-xs" name="numberArea" value="0,100"/>
+                <span class="label-text text-gray-500">0~100</span>
+            </label>
+            <label class="label gap-2 bg-gray-50 border rounded-lg px-3 num-area">
+                <input type="radio" class="radio radio-xs" name="numberArea" value="1,100"/>
+                <span class="label-text text-gray-500">1~100</span>
+            </label>
+            <label class="label gap-2 bg-gray-50 border rounded-lg px-3 num-area">
+                <input type="radio" class="radio radio-xs" name="numberArea" value="50,100"/>
+                <span class="label-text text-gray-500">50~100</span>
+            </label>
+            <button class="btn btn-sm shadow-none py-2 h-auto" onclick="newAreaCreaterDom.classList.contains('hidden')?newAreaCreaterDom.classList.remove('hidden'):newAreaCreaterDom.classList.add('hidden')">
+                <span class="label-text font-bold" style="font-size: 18px">+</span>
+            </button>
+            <button class="btn btn-sm shadow-none py-2 h-auto hidden" id="clearUserArea">
+                <span class="label-text font-bold">清空新增范围</span>
+            </button>
+        </div>
+
+        <div class="bg-gray-50 p-2 rounded-md border hidden" id="newAreaCreaterDom">
+            <label class="block text-sm font-bold leading-6 text-gray-500">新增统计范围 <small class="text-gray-400 font-normal">仅会保存到此浏览器，清空浏览器缓存后将会消失。</small></label>
+            <div class="flex flex-row gap-2 items-center mt-2 mb-2">
+                <div><input type="number" id="min" placeholder="最小值" value="" class="input input-sm input-bordered w-24"/></div>
+                <div>~</div>
+                <div><input type="number" id="max" placeholder="最大值" value="" class="input input-sm input-bordered w-24"/></div>
+                <button class="btn btn-sm btn-success" id="addNewAreaBtn">保存</button>
+                <button class="btn btn-sm" onclick="newAreaCreaterDom.classList.add('hidden')">取消</button>
+            </div>
+        </div>
     </div>
-    <label class="label cursor-pointer inline-flex gap-2">
-        <input type="checkbox" class="checkbox checkbox-info" id="hasDotNumber" />
-        <span class="label-text">包含小数</span>
-    </label>
+    <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">更多选项</label>
+    <div class="flex gap-2">
+        <label class="label cursor-pointer inline-flex gap-2">
+            <input type="checkbox" class="checkbox checkbox-sm checkbox-info" id="hasDotNumber" />
+            <span class="label-text">包含小数</span>
+        </label>
+
+        <label class="label cursor-pointer inline-flex gap-2">
+            <input type="checkbox" class="checkbox checkbox-sm checkbox-info" id="hasNNumber" />
+            <span class="label-text">包含负数</span>
+        </label>
+    </div>
     <div class="flex flex-row gap-2 mt-2">
         <button id="btn-start" class="btn btn-primary w-1/2">开始统计</button>
         <button id="btn-reset" class="btn btn-error w-1/2">清空</button>
