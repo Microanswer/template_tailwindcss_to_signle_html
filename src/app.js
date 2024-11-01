@@ -12,6 +12,14 @@ function printResult(title, msg) {
 
 printResult("", desc);
 
+function applyIfhasDotOrNN(min, max) {
+    // 如果范围中有小数，那么自动勾选 包含小数
+    hasDotNumber.checked = !Number.isInteger(min) || !Number.isInteger(max);
+
+    // 如果范围中有负数，那么自动勾选 包含负数
+    hasNNumber.checked = min < 0 || max < 0;
+}
+
 function selectArea(min, max) {
     var a = document.querySelector(`input[value="${min},${max}"]`);
 
@@ -23,11 +31,7 @@ function selectArea(min, max) {
     localStorage.setItem("select-area", `${min},${max}`);
     a.checked = true;
 
-    // 如果范围中有小数，那么自动勾选 包含小数
-    hasDotNumber.checked = !Number.isInteger(min) || !Number.isInteger(max);
-
-    // 如果范围中有负数，那么自动勾选 包含负数
-    hasNNumber.checked = min < 0 || max < 0;
+    applyIfhasDotOrNN(min, max);
 }
 
 function showUserArea(min, max) {
@@ -207,6 +211,9 @@ function addNewArea() {
 function onAreaInput() {
     // 保存选择的统计范围
     localStorage.setItem("select-area", this.value);
+
+    let [min, max] = this.value.split(",").map(v => parseFloat(v));
+    applyIfhasDotOrNN(min, max);
 }
 
 function onBtnClearUserAreaClick() {
