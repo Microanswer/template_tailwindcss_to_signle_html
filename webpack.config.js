@@ -3,6 +3,7 @@ const HtmlInlineCssPlugin = require("html-inline-css-webpack-plugin");
 const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const packageJson = require("./package.json");
 const devMode = process.env.NODE_ENV !== "production";
 module.exports = {
     entry: [
@@ -52,7 +53,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./src/app.ejs",
             scriptLoading: "blocking",
-            inject: true
+            inject: true,
+            packageInfo: {
+                version: packageJson.version,
+                buildAt: new Date().toString()
+            }
         }),
         new HtmlInlineCssPlugin.default(),
         ...(function() {

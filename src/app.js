@@ -10,8 +10,6 @@ function printResult(title, msg) {
     resultMsgDom.innerHTML = msg;
 }
 
-printResult("", desc);
-
 function applyIfhasDotOrNN(min, max) {
     // 如果范围中有小数，那么自动勾选 包含小数
     hasDotNumber.checked = !Number.isInteger(min) || !Number.isInteger(max);
@@ -72,7 +70,7 @@ function readAndShowUserArea() {
 
 function numberTime() {
     try {
-        printResult("", "");
+        printResult("统计结果", "统计中...");
 
         var hasDN = hasDotNumber.checked;
         var hasNN = hasNNumber.checked;
@@ -109,7 +107,7 @@ function numberTime() {
         numbers = textIn.match(new RegExp(reg, "g"));
 
         if (!numbers || numbers.length <= 0) {
-            printResult("输入错误：", "你输入的数据中没有数字。");
+            printResult("输入错误", "你输入的数据中没有数字。");
             return;
         }
 
@@ -135,7 +133,7 @@ function numberTime() {
 
         var str3 = "";
         if (unnumbers.length > 0) {
-            str3 = "不在统计范围的数字：" + unnumbers.join(", ") + ` (共${unnumbers.length}个)`;
+            str3 = "<div class='text-gray-400'>不在统计范围的数字：" + unnumbers.join(", ") + ` (共${unnumbers.length}个)</div>`;
         }
 
         var anlobj = {"0": allnumbers};
@@ -143,7 +141,7 @@ function numberTime() {
         var str2 = "";
         Object.keys(tjobj).forEach(num => {
             var count = tjobj[num];
-            str2 += `数字【${num}】：出现了 ${count}次<br>`;
+            str2 += `数字【${num}】：出现 ${count}次<br>`;
 
             if (typeof anlobj[count] === "undefined") {
                 anlobj[count] = [num];
@@ -151,28 +149,31 @@ function numberTime() {
                 anlobj[count].push(num);
             }
         });
+        if (!str2) {
+            str2 = "没有出现在统计范围内的数字"
+        }
 
-        var str1 = `统计的范围 [${min}~${max}]:<br><br>`;
-        Object.keys(anlobj).forEach(count => {
-            str1 += `出现【${count}】次的：${anlobj[count].join(", ")}`;
+        var str1 = ``;
+        Object.keys(anlobj).forEach((count, index) => {
+            str1 += `<div class="flex flex-row gap-1 ${index===0?'':"mt-2"}"><div class="whitespace-nowrap pt-0.5">出现【${count}】次：</div><div>${anlobj[count].map(num => `<span class="badge badge-ghost ml-1 mt-1 min-w-10">${num}</span>`).join("")}`;
             if (anlobj[count].length > 0) {
-                str1 += ` (共${anlobj[count].length}个)`;
+                str1 += ` <b>(共${anlobj[count].length}个)</b>`;
             }
-            str1 += `<br>`;
+            str1 += `</div></div>`;
         });
 
 
-        printResult("统计完成：", str1 + "<br><br>" + str2 + "<br><br>" + str3);
+        printResult(`统计完成，统计范围 [${min}~${max}]`, str1 + "<hr class='my-2'>" + str2 + "<hr class='my-2'>" + str3);
 
 
     } catch (err) {
         console.log(err);
-        printResult("输入错误：", err.message);
+        printResult("输入错误", err.message);
     }
 }
 
 function reset() {
-    printResult("", desc);
+    printResult("统计结果", desc);
     textareaInDom.value = "";
 }
 

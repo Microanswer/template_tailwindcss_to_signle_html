@@ -79,27 +79,29 @@
     <div class="flex gap-2">
         <label class="label cursor-pointer inline-flex gap-2">
             <input type="checkbox" class="checkbox checkbox-sm checkbox-info" id="hasDotNumber" />
-            <span class="label-text">包含小数</span>
+            <span class="label-text font-bold">包含小数</span>
         </label>
 
         <label class="label cursor-pointer inline-flex gap-2">
             <input type="checkbox" class="checkbox checkbox-sm checkbox-info" id="hasNNumber" />
-            <span class="label-text">包含负数</span>
+            <span class="label-text font-bold">包含负数</span>
         </label>
     </div>
     <div class="flex flex-row gap-2 mt-2">
         <button id="btn-start" class="btn btn-primary w-1/2">开始统计</button>
         <button id="btn-reset" class="btn btn-error w-1/2">清空</button>
     </div>
-    <div class="text-sm text-gray-500 mt-2">
-        作者：<a class="link" href="https://www.microanswer.cn/" target="_blank">Microanswer</a>&nbsp;&nbsp;
-        源码：<a class="link" href="https://github.com/Microanswer/template_tailwindcss_to_signle_html" target="_blank">template_tailwindcss_to_signle_html</a>
+    <label id="resultTitle" class="block text-sm font-bold leading-6 text-gray-500 mt-3">统计结果</label>
+    <div id="resultMsg"
+         class="break-all w-full text-sm text-emerald-700 mt-2 px-2 py-1.5 border rounded-md shadow-sm min-h-52">
+        输入你的数字，再输入统计范围，开始统计即可得出结果。
     </div>
 
-    <br>
-    <label id="resultTitle" class="block text-sm font-bold leading-6 text-gray-500"></label>
-    <div id="resultMsg" class="break-all w-full text-sm text-emerald-700 mt-2 px-2 py-1.5 border rounded-md shadow-sm">
-
+    <div class="text-sm text-gray-500 mt-3">
+        版本：<%= htmlWebpackPlugin.options.packageInfo.version %><small>-(<%= htmlWebpackPlugin.options.packageInfo.buildAt %>)</small><br>
+        作者：<a class="link" href="https://www.microanswer.cn/" target="_blank">Microanswer</a>&nbsp;&nbsp;
+        源码：<a class="link" href="https://github.com/Microanswer/template_tailwindcss_to_signle_html"
+                target="_blank">template_tailwindcss_to_signle_html</a>
     </div>
 </div>
 </body>
