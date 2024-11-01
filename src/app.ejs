@@ -35,7 +35,7 @@
     <textarea class="textarea textarea-bordered w-full mt-2" placeholder="输入数据" id="textareaIn" rows="6"></textarea>
 
     <!-- 主功能面板 -->
-    <div id="mainBoardDom" class="hidden">
+    <div id="mainBoardDom" class="">
         <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">统计范围</label>
         <div class="flex flex-col gap-2 mt-2">
 
@@ -104,14 +104,14 @@
     </div>
 
     <!-- 字符映射输入管理面板 -->
-    <div id="keyBoardDom" class="">
+    <div id="keyBoardDom" class="hidden">
         <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">字符输入</label>
         <div id="keyInputScreen" class="mt-2 border shadow-sm min-h-14 rounded-lg p-3 gap-3 flex flex-row flex-wrap items-center">
             <div id="keyInputPlaceholder" class="text-gray-400 text-sm">点击下方按钮，输入对应数字组</div>
         </div>
 
         <!-- 字符键盘 -->
-        <div class="mt-2 flex flex-row flex-wrap gap-2">
+        <div class="mt-2 flex flex-row flex-wrap gap-2 items-center">
             <kbd class="my-key kbd select-none" data-numbers="01,13,25,37,49">龙</kbd>
             <kbd class="my-key kbd select-none" data-numbers="02,14,26,38">兔</kbd>
             <kbd class="my-key kbd select-none" data-numbers="03,15,27,39">虎</kbd>
@@ -130,13 +130,13 @@
             <kbd class="my-key kbd select-none" data-numbers="12,13,20,21,28,29,42,43">水</kbd>
             <kbd class="my-key kbd select-none" data-numbers="01,08,09,16,17,30,31,38,39,46,47">火</kbd>
             <kbd class="my-key kbd select-none" data-numbers="04,05,48,49,26,27,34,35,48,49">土</kbd>
+
+            <span class="w-0.5 bg-gray-300 h-5 mx-0.5"></span>
+            <kbd class="kbd select-none active:bg-gray-200" onclick="modal_keysmap.showModal()">字符映射表</kbd>
+            <kbd class="kbd select-none text-amber-800 bg-amber-100 active:bg-amber-200" onclick="newCustomKeyCreaterDom.classList.remove('hidden')">新增字符映射</kbd>
+
         </div>
 
-        <div class="mt-2 p-2 border rounded-md shadow-sm bg-gray-100">
-            <kbd class="kbd select-none active:bg-gray-200">查看字符映射表</kbd>
-            <kbd class="kbd select-none text-amber-800 bg-amber-100 active:bg-amber-200" onclick="newCustomKeyCreaterDom.classList.remove('hidden')">新增字符映射</kbd>
-            <kbd class="kbd select-none text-red-800 bg-red-100 active:bg-red-200">删除字符映射</kbd>
-        </div>
 
         <div class="bg-gray-50 mt-2 p-2 rounded-md border hidden" id="newCustomKeyCreaterDom">
             <label class="block text-sm font-bold leading-6 text-gray-500">新增字符映射 <small class="text-gray-400 font-normal">仅会保存到此浏览器，清空浏览器缓存后将会消失。</small></label>
@@ -170,5 +170,19 @@
         <div class="key-text bg-gray-200 border rounded-lg text-sm px-2 py-1 select-none font-bold"></div>
     </div>
 </div>
+
+<!-- 字符映射表 -->
+<dialog id="modal_keysmap" class="modal">
+    <div class="modal-box p-2">
+        <h3 class="text-lg font-bold">字符映射表</h3>
+        <div class="py-4 keysmap max-h-96 overflow-auto"></div>
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">关闭</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
 </body>
 </html>

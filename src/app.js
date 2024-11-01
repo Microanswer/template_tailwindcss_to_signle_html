@@ -404,6 +404,38 @@ function renderCustomKey() {
     });
 }
 
+function onBtnDelKeyClick() {
+    var kText = this.getAttribute("data-key");
+    var customKeys = JSON.parse(localStorage.getItem("custom-keys") || "{}");
+    delete customKeys[kText];
+    localStorage.setItem("custom-keys", JSON.stringify(customKeys));
+
+    renderCustomKey();
+    setTimeout(() => {
+        renderAllKeysMap();
+    })
+}
+
+// 将所有的字符映射规则渲染到弹出框中。
+function renderAllKeysMap() {
+    let html = '<table class="table table-xs"><thead><tr><th>字符</th><th>数字列表</th><th>操作</th></tr></thead><tbody>';
+    Array.from(document.querySelectorAll(".my-key")).reverse().forEach(function (key) {
+        var kText = key.textContent.trim();
+        var kNumbers = key.getAttribute("data-numbers");
+        html += `<tr><td>${kText}</td><td>${kNumbers}</td><td><button data-key="${kText}" class="custom-key-del btn btn-xs btn-error whitespace-nowrap" ${key.classList.contains("custom-key")?"":"disabled"}>删除</button></td></tr>`;
+    });
+
+    html += "</tbody></table>";
+
+    document.querySelector(".keysmap").innerHTML = html;
+
+    setTimeout(() => {
+        document.querySelectorAll(".custom-key-del").forEach(function (delBtn) {
+            delBtn.addEventListener("click", onBtnDelKeyClick);
+        })
+    })
+}
+
 function onBtnAddNewCustomKeyClick() {
     var k = customKeyInput.value.trim();
     var numbers = customKeyNumbersInput.value.trim();
@@ -420,6 +452,10 @@ function onBtnAddNewCustomKeyClick() {
     customKeyInput.value = "";
     customKeyNumbersInput.value = "";
     newCustomKeyCreaterDom.classList.add('hidden');
+
+    setTimeout(() => {
+        renderAllKeysMap();
+    })
 }
 
 function onBtnKeyBoardClearClick() {
@@ -456,4 +492,8 @@ window.onload = function () {
     document.querySelectorAll(".my-key").forEach(keyDom => {
         keyDom.addEventListener("click", onBtnKeyClick);
     });
+
+    setTimeout(() => {
+        renderAllKeysMap();
+    })
 }

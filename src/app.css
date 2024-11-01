@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    scrollbar-gutter: auto !important;
+}
+
+
 .custom-key {
     @apply text-amber-800 bg-amber-100 active:bg-amber-200
 }
