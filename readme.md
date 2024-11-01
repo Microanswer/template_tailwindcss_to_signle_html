@@ -3,6 +3,9 @@
 这是一个集合 tailwindcss、webpack 的项目模板，最终导出单个html。非常适合小型工具编写
 使用。
 
+
+本项目同时是一个 数字统计 工具。[立即体验](https://test.microanswer.cn/NumberShowTime.html)。
+
 ### 0、快速
 
 ```cmd
@@ -29,4 +32,4 @@ tailwindcss 代码样式。在 app.ejs 中编写布局。
 
 ### 3、案例
 
-这里有一个成品网页案例：[数字统计](https://test.microanswer.cn/NumberShowTime.html)。
+本项目同时即是一个案例：[数字统计](https://test.microanswer.cn/NumberShowTime.html)。
