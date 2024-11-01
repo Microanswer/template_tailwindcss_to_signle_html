@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-key {
+    @apply text-amber-800 bg-amber-100 active:bg-amber-200
+}
+
+.animate-keychange {
+    animation: keyChange 150ms;
+    animation-iteration-count: 1;
+}
+
+@keyframes keyChange {
+    50% {
+        scale: 1.1;
+    }
+    100% {
+        scale: 1;
+    }
+}
