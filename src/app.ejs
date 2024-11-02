@@ -105,9 +105,16 @@
 
     <!-- 字符映射输入管理面板 -->
     <div id="keyBoardDom" class="hidden">
+        <div class="bg-amber-200 mt-2 p-2 text-sm text-amber-700 rounded-lg">
+            ⚠ 请注意，如果你需要输入额外的数字进行统计，请在确定好所有字符后再输入数字。
+        </div>
+
         <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">字符输入</label>
         <div id="keyInputScreen" class="mt-2 border shadow-sm min-h-14 rounded-lg p-3 gap-3 flex flex-row flex-wrap items-center">
-            <div id="keyInputPlaceholder" class="text-gray-400 text-sm">点击下方按钮，输入对应数字组</div>
+            <div id="keyInputPlaceholder" class="w-full">
+                <span class="text-gray-400 text-sm select-none">点击下方按钮，输入对应数字组</span>
+                <button class="btn btn-xs float-right" onclick="modal_paste.showModal()">从剪切板粘贴</button>
+            </div>
         </div>
 
         <!-- 字符键盘 -->
@@ -170,6 +177,29 @@
         <div class="key-text bg-gray-200 border rounded-lg text-sm px-2 py-1 select-none font-bold"></div>
     </div>
 </div>
+
+<!-- 从剪切板粘贴弹出框 -->
+<dialog id="modal_paste" class="modal">
+    <div class="modal-box p-4">
+        <h3 class="text-lg font-bold">从剪切板粘贴</h3>
+        <div class="mt-4 w-full">
+            <span class="text-sm">按 Ctrl+v 可以将数据粘贴在下方，然后点击 【识别】</span>
+            <button class="btn btn-xs float-right" id="btnParseKeyText">识别</button>
+        </div>
+        <div contenteditable="true" id="pasteInput" class="mt-2 textarea textarea-bordered w-full h-36 max-h-96 break-all overflow-auto"></div>
+        <div class="mt-2 border border-gray-300 bg-gray-200 p-4 rounded-lg hidden" id="parseResult">
+            <div class="text-xs text-gray-600">从你的数据中找到了这些字符</div>
+            <div class="mt-1 flex flex-row gap-2 flex-wrap" id="parseResultKeys"></div>
+        </div>
+        <div class="modal-action">
+            <button class="btn btn-error mr-auto" onclick="pasteInput.textContent = '';parseResult.classList.add('hidden')">清空粘贴</button>
+            <button class="btn btn-success" id="btnConfirmPaste">确定</button>
+            <form method="dialog" onsubmit="pasteInput.textContent = '';parseResult.classList.add('hidden')">
+                <button class="btn">关闭</button>
+            </form>
+        </div>
+    </div>
+</dialog>
 
 <!-- 字符映射表 -->
 <dialog id="modal_keysmap" class="modal">

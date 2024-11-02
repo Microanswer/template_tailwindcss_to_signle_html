@@ -322,7 +322,11 @@ function renderUserInputedKeys() {
             newInputKey.classList.remove("hidden");
             newInputKey.setAttribute("data-key", userInputedKey.key);
             newInputKey.setAttribute("data-number", userInputedKey.numbers[0]);
-            newInputKey.querySelector(".key-text").textContent = userInputedKey.key;
+            if (userInputedKey.numbers.length <= 1) {
+                newInputKey.querySelector(".key-text").textContent = userInputedKey.key;
+            } else {
+                newInputKey.querySelector(".key-text").textContent = userInputedKey.key + "×" + userInputedKey.numbers.length;
+            }
             newInputKey.querySelector(".key-del").addEventListener("click", function () {
                 removeOneInKey(this.parentElement.getAttribute("data-key"));
             });
@@ -416,13 +420,27 @@ function onBtnDelKeyClick() {
     })
 }
 
-// 将所有的字符映射规则渲染到弹出框中。
-function renderAllKeysMap() {
-    let html = '<table class="table table-xs"><thead><tr><th>字符</th><th>数字列表</th><th>操作</th></tr></thead><tbody>';
+/**
+ *
+ * @returns {{key: string, numbers: string, custom: boolean}[]}
+ */
+function getAllKeysMap() {
+    var arr = [];
     Array.from(document.querySelectorAll(".my-key")).reverse().forEach(function (key) {
         var kText = key.textContent.trim();
         var kNumbers = key.getAttribute("data-numbers");
-        html += `<tr><td>${kText}</td><td>${kNumbers}</td><td><button data-key="${kText}" class="custom-key-del btn btn-xs btn-error whitespace-nowrap" ${key.classList.contains("custom-key")?"":"disabled"}>删除</button></td></tr>`;
+        arr.push({key: kText, numbers: kNumbers, custom: key.classList.contains("custom-key")});
+    });
+    return arr;
+}
+
+// 将所有的字符映射规则渲染到弹出框中。
+function renderAllKeysMap() {
+    let html = '<table class="table table-xs"><thead><tr><th>字符</th><th>数字列表</th><th>操作</th></tr></thead><tbody>';
+    getAllKeysMap().forEach(function (key) {
+        var kText = key.key;
+        var kNumbers = key.numbers;
+        html += `<tr><td>${kText}</td><td>${kNumbers}</td><td><button data-key="${kText}" class="custom-key-del btn btn-xs btn-error whitespace-nowrap" ${key.custom?"":"disabled"}>删除</button></td></tr>`;
     });
 
     html += "</tbody></table>";
@@ -465,6 +483,89 @@ function onBtnKeyBoardClearClick() {
     })
 }
 
+function onPasteInputInput(event) {
+
+}
+function onPasteInputPaste(event) {
+    event.preventDefault();
+    var text =  (event.originalEvent || event).clipboardData.getData('text/plain');
+    document.execCommand("insertText", false, text);
+}
+
+// 保存粘贴识别的字符结果
+var pasteDataResult = [];
+
+function onBtnParseKeyTextClick() {
+    parseKeyTextAndShow(pasteInput.textContent.trim());
+}
+
+function onBtnConfirmPasteClick() {
+    inputedKeys = pasteDataResult;
+    pasteDataResult = [];
+    renderUserInputedKeys();
+    pasteInput.textContent = '';
+    parseResult.classList.add('hidden');
+    modal_paste.close();
+}
+
+/**
+ *  解析已有的字符串，将字符串中符合映射表中的字符提取出来。
+ *
+ * @param str
+ *
+ * @return {{html: string, keys: {key: string, numbers: string[]}[]}}
+ */
+function parseKeyText(str) {
+    var html = str;
+    var keys = [];
+    var allKeys = getAllKeysMap();
+    allKeys = allKeys.sort(function(k1,k2){
+        return k2.key.length - k1.key.length;
+    });
+    for (var i = 0; i < allKeys.length; i++) {
+        var key = allKeys[i];
+        html = html.replace(new RegExp(key.key, "g"), function (match) {
+            var ok = keys.find(k => k.key === match);
+            if (!ok) {
+                ok = {
+                    key: match,
+                    numbers: []
+                }
+                keys.push(ok);
+            }
+            ok.numbers.push(allKeys.find(k => k.key === match).numbers);
+            return `<span class="text-success font-bold">${match}</span>`
+        });
+    }
+
+    return {html: html, keys: keys}
+}
+
+function parseKeyTextAndShow(str) {
+
+    var res = parseKeyText(str);
+
+    pasteDataResult = res.keys;
+
+    pasteInput.innerHTML = res.html;
+
+    if (res.keys.length > 0) {
+        parseResult.classList.remove("hidden");
+        parseResultKeys.innerHTML = res.keys.map(k => {
+            var t = ""
+            if (k.numbers.length <= 1) {
+                t = `${k.key}`
+            } else {
+                t = `${k.key}×${k.numbers.length}`;
+            }
+            return `<div class="badge badge-xs badge-accent py-2">${t}</div>`
+        }).join("");
+    } else {
+        parseResult.classList.add("hidden");
+        parseResultKeys.innerHTML = "";
+    }
+}
+
 window.onload = function () {
 
     document.querySelector("#btn-start").addEventListener("click", numberTime);
@@ -496,4 +597,10 @@ window.onload = function () {
     setTimeout(() => {
         renderAllKeysMap();
     })
+
+    // 监听字符粘贴框的粘贴事件
+    pasteInput.addEventListener("paste", onPasteInputPaste);
+    pasteInput.addEventListener("input", onPasteInputInput);
+    btnParseKeyText.addEventListener("click", onBtnParseKeyTextClick);
+    btnConfirmPaste.addEventListener("click", onBtnConfirmPasteClick);
 }
