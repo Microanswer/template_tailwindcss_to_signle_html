@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss_app_to_signle_html",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "This is a project template that integrates Tailwind CSS and Webpack, ultimately exporting a single HTML file.",
   "main": "index.js",
   "scripts": {

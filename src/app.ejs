@@ -110,57 +110,57 @@
         </div>
 
         <label class="block text-sm font-bold leading-6 text-gray-500 mt-3">字符输入</label>
-        <div id="keyInputScreen" class="mt-2 border shadow-sm min-h-14 rounded-lg p-3 gap-3 flex flex-row flex-wrap items-center">
-            <div id="keyInputPlaceholder" class="w-full">
-                <span class="text-gray-400 text-sm select-none">点击下方按钮，输入对应数字组</span>
-                <button class="btn btn-xs float-right" onclick="modal_paste.showModal()">从剪切板粘贴</button>
+        <div class="p-2 border border-gray-100 bg-gray-100 rounded-md">
+            <div id="keyInputScreen"
+                 class="border bg-white shadow-sm min-h-14 rounded-lg p-3 gap-3 flex flex-row flex-wrap items-center">
+                <div id="keyInputPlaceholder" class="w-full">
+                    <span class="text-gray-400 text-sm select-none">点击字符按钮，输入映射内容</span>
+                    <button class="btn btn-xs float-right" onclick="modal_paste.showModal()">从剪切板粘贴</button>
+                </div>
             </div>
+
+            <!-- 字符键盘 -->
+            <div class="mt-2 flex flex-col gap-2 items-center">
+
+                <div class="my-key-list-empty w-full text-center select-none text-sm text-gray-400 py-4">没有定义任何字符按钮，你可以通过
+                    <kbd class="kbd kbd-sm">新增映射</kbd> 或 <kbd class="kbd kbd-sm">导入</kbd> 来添加字符按钮</div>
+
+                <div class="my-key-list w-full flex flex-row flex-wrap justify-start gap-2"></div>
+
+                <hr class="w-full">
+                <div class="w-full flex flex-row justify-between flex-wrap gap-2">
+                    <div class="whitespace-nowrap">
+                        <kbd class="kbd select-none active:bg-gray-200" onclick="modal_keysmap.showModal()">字符映射表</kbd>
+                        <kbd class="kbd select-none text-amber-800 bg-amber-100 active:bg-amber-200" onclick="newCustomKeyCreaterDom.classList.remove('hidden')">新增映射</kbd>
+                        <label>
+                            <kbd class="kbd select-none active:bg-gray-200">导入</kbd>
+                            <input type="file" class="hidden" accept="application/json" id="importCustomKeyInput">
+                        </label>
+                        <kbd class="kbd select-none active:bg-gray-200" id="exportCustomKey">导出</kbd>
+                    </div>
+
+                    <div class="whitespace-nowrap">
+                        <button id="btnKeyBoardOk" class="btn btn-success btn-sm">输入完成</button>
+                        <button id="btnKeyBoardClear" class="btn btn-sm btn-error">清空输入</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- 字符键盘 -->
-        <div class="mt-2 flex flex-row flex-wrap gap-2 items-center">
-            <kbd class="my-key kbd select-none" data-numbers="01,13,25,37,49">龙</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="02,14,26,38">兔</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="03,15,27,39">虎</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="04,16,28,40">牛</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="05,17,29,41">鼠</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="06,18,30,42">猪</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="07,19,31,43">狗</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="08,20,32,44">鸡</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="09,21,33,45">猴</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="10,22,34,46">羊</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="11,23,35,47">马</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="12,24,36,48">蛇</kbd>
-
-            <kbd class="my-key kbd select-none" data-numbers="02,03,10,11,24,25,32,33,40,41">金</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="06,07,14,15,22,23,36,37,44,45">木</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="12,13,20,21,28,29,42,43">水</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="01,08,09,16,17,30,31,38,39,46,47">火</kbd>
-            <kbd class="my-key kbd select-none" data-numbers="04,05,18,19,26,27,34,35,48,49">土</kbd>
-
-            <span class="w-0.5 bg-gray-300 h-5 mx-0.5"></span>
-            <kbd class="kbd select-none active:bg-gray-200" onclick="modal_keysmap.showModal()">字符映射表</kbd>
-            <kbd class="kbd select-none text-amber-800 bg-amber-100 active:bg-amber-200" onclick="newCustomKeyCreaterDom.classList.remove('hidden')">新增字符映射</kbd>
-
-        </div>
-
-
-        <div class="bg-gray-50 mt-2 p-2 rounded-md border hidden" id="newCustomKeyCreaterDom">
+        <div class="mt-2 p-2 rounded-md border hidden shadow-xl" id="newCustomKeyCreaterDom">
             <label class="block text-sm font-bold leading-6 text-gray-500">新增字符映射 <small class="text-gray-400 font-normal">仅会保存到此浏览器，清空浏览器缓存后将会消失。</small></label>
-            <div class="flex flex-row flex-wrap gap-2 items-center mt-2 mb-2">
+            <div class="flex flex-row flex-wrap gap-2 items-center mt-2">
                 <div><input type="text" id="customKeyInput" autocomplete="off" placeholder="输入字符" value="" class="input input-sm input-bordered w-24"/></div>
+                <div class="text-gray-400 select-none text-sm">映射到</div>
                 <div class="grow"><input type="text"  autocomplete="off" id="customKeyNumbersInput" placeholder="多个数字用,号隔开" value="" class="input input-sm input-bordered w-full"/></div>
                 <div class="w-full">
-                    <button class="btn btn-sm btn-success" id="btnAddNewCustomKey">保存</button>
-                    <button class="btn btn-sm" onclick="newCustomKeyCreaterDom.classList.add('hidden')">取消</button>
+                    <button class="btn btn-sm btn-success w-20" id="btnAddNewCustomKey">保存</button>
+                    <button class="btn btn-sm w-20" onclick="newCustomKeyCreaterDom.classList.add('hidden')">取消</button>
                 </div>
             </div>
         </div>
 
-        <div class="flex flex-row mt-2 gap-2">
-            <button id="btnKeyBoardOk" class="btn btn-success btn-sm">输入完成</button>
-            <button id="btnKeyBoardClear" class="btn btn-sm">清空输入</button>
-        </div>
     </div>
 
     <div class="text-sm text-gray-500 mt-3">
@@ -183,7 +183,7 @@
     <div class="modal-box p-4">
         <h3 class="text-lg font-bold">从剪切板粘贴</h3>
         <div class="mt-4 w-full">
-            <span class="text-sm">按 Ctrl+v 可以将数据粘贴在下方，然后点击 【识别】</span>
+            <span class="text-sm">将数据粘贴在下方后点击【识别】即可</span>
             <button class="btn btn-xs float-right" id="btnParseKeyText">识别</button>
         </div>
         <div contenteditable="true" id="pasteInput" class="mt-2 textarea textarea-bordered w-full h-36 max-h-96 break-all overflow-auto"></div>
@@ -213,6 +213,10 @@
         </div>
     </div>
 </dialog>
+
+
+<!-- 字符按钮模版 -->
+<kbd class="my-key-template my-key kbd bg-white select-none active:bg-gray-100 hidden" data-numbers=""></kbd>
 
 </body>
 </html>

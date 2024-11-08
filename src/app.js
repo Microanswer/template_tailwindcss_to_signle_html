@@ -3,6 +3,7 @@ var resultMsgDom = document.querySelector("#resultMsg");
 var textareaInDom = document.querySelector("#textareaIn");
 var minDom = document.querySelector("#min");
 var maxDom = document.querySelector("#max");
+var myKeyTemplate = document.querySelector(".my-key-template");
 var desc = "输入你的数字，再输入统计范围，开始统计即可得出结果。";
 
 /**
@@ -395,16 +396,24 @@ function renderCustomKey() {
         d.remove();
     });
 
-    Object.keys(customKeys).forEach(function (key) {
-        var myKeys = document.querySelectorAll(".my-key");
-        var lastMyKeyDom = myKeys[myKeys.length - 1];
+    var myKeyList = document.querySelector(".my-key-list");
+    var myKeyListEmpty = document.querySelector(".my-key-list-empty");
+    var keys = Object.keys(customKeys);
+    if (keys.length > 0) {
+        myKeyListEmpty.classList.add("hidden");
+    } else {
+        myKeyListEmpty.classList.remove("hidden");
+    }
 
-        let newCustomKeyDom = lastMyKeyDom.cloneNode(true);
+    keys.forEach(function (key) {
+
+        let newCustomKeyDom = myKeyTemplate.cloneNode(true);
         newCustomKeyDom.classList.add("custom-key");
+        newCustomKeyDom.classList.remove("hidden", "my-key-template")
         newCustomKeyDom.setAttribute("data-numbers", customKeys[key]);
         newCustomKeyDom.textContent = key;
         newCustomKeyDom.addEventListener("click", onBtnKeyClick);
-        lastMyKeyDom.after(newCustomKeyDom);
+        myKeyList.appendChild(newCustomKeyDom);
     });
 }
 
@@ -426,7 +435,7 @@ function onBtnDelKeyClick() {
  */
 function getAllKeysMap() {
     var arr = [];
-    Array.from(document.querySelectorAll(".my-key")).reverse().forEach(function (key) {
+    Array.from(document.querySelectorAll(".my-key-list .my-key")).reverse().forEach(function (key) {
         var kText = key.textContent.trim();
         var kNumbers = key.getAttribute("data-numbers");
         arr.push({key: kText, numbers: kNumbers, custom: key.classList.contains("custom-key")});
@@ -436,14 +445,19 @@ function getAllKeysMap() {
 
 // 将所有的字符映射规则渲染到弹出框中。
 function renderAllKeysMap() {
-    let html = '<table class="table table-xs"><thead><tr><th>字符</th><th>数字列表</th><th>操作</th></tr></thead><tbody>';
-    getAllKeysMap().forEach(function (key) {
-        var kText = key.key;
-        var kNumbers = key.numbers;
-        html += `<tr><td>${kText}</td><td>${kNumbers}</td><td><button data-key="${kText}" class="custom-key-del btn btn-xs btn-error whitespace-nowrap" ${key.custom?"":"disabled"}>删除</button></td></tr>`;
-    });
-
-    html += "</tbody></table>";
+    let html = '';
+    let allKeysMap = getAllKeysMap();
+    if (allKeysMap.length > 0) {
+        html = `<table class="table table-xs"><thead><tr><th>字符</th><th>数字列表</th><th>操作</th></tr></thead><tbody>`;
+        allKeysMap.forEach(function (key) {
+            var kText = key.key;
+            var kNumbers = key.numbers;
+            html += `<tr><td>${kText}</td><td>${kNumbers}</td><td><button data-key="${kText}" class="custom-key-del btn btn-xs btn-error whitespace-nowrap" ${key.custom ? "" : "disabled"}>删除</button></td></tr>`;
+        });
+        html += "</tbody></table>";
+    } else {
+        html = `<div class="text-center p-5 text-gray-600 flex flex-row flex-wrap justify-center items-center h-full gap-2">没有定义任何字符按钮，你可以通过<kbd class="kbd kbd-sm">新增映射</kbd>或<kbd class="kbd kbd-sm">导入</kbd>来添加字符按钮</div>`
+    }
 
     document.querySelector(".keysmap").innerHTML = html;
 
@@ -454,6 +468,29 @@ function renderAllKeysMap() {
     })
 }
 
+function addCustomKey(k, numbers) {
+    let customKeys = JSON.parse(localStorage.getItem("custom-keys") || "{}");
+    customKeys[k] = numbers;
+    localStorage.setItem("custom-keys", JSON.stringify(customKeys));
+}
+
+/**
+ *  批量添加自定义字符映射
+ *
+ * @param keys {{key: string, numbers: string, custom: boolean}[]}
+ */
+function addCustomKeys(keys) {
+    if (keys.length <= 0) {
+        return;
+    }
+    let customKeys = JSON.parse(localStorage.getItem("custom-keys") || "{}");
+    for (let i = 0; i < keys.length; i++) {
+        let k = keys[i];
+        customKeys[k.key] = k.numbers;
+    }
+    localStorage.setItem("custom-keys", JSON.stringify(customKeys));
+}
+
 function onBtnAddNewCustomKeyClick() {
     var k = customKeyInput.value.trim();
     var numbers = customKeyNumbersInput.value.trim();
@@ -462,9 +499,7 @@ function onBtnAddNewCustomKeyClick() {
         return;
     }
 
-    let customKeys = JSON.parse(localStorage.getItem("custom-keys") || "{}");
-    customKeys[k] = numbers;
-    localStorage.setItem("custom-keys", JSON.stringify(customKeys));
+    addCustomKey(k, numbers);
 
     renderCustomKey();
     customKeyInput.value = "";
@@ -566,6 +601,46 @@ function parseKeyTextAndShow(str) {
     }
 }
 
+function doDownload(content, filename) {
+    let eleLink = document.createElement('a');
+    eleLink.download = filename;
+    eleLink.classList.add("hidden");
+    eleLink.style.display = 'none';
+    let blob = new Blob([content]);
+    eleLink.href = URL.createObjectURL(blob);
+    document.body.appendChild(eleLink);
+    eleLink.click();
+    document.body.removeChild(eleLink);
+}
+
+function onSelectCustomKeyFile(e) {
+    let f = this.files[0];
+    if (!f) {
+        return;
+    }
+
+    let fr = new FileReader();
+    fr.onload = function () {
+        try {
+            let allKeysMap = JSON.parse(fr.result);
+            addCustomKeys(allKeysMap.reverse());
+            renderCustomKey();
+            setTimeout(() => {
+                renderAllKeysMap();
+            });
+        }catch (err) {
+            window.alert("导入出错，请选择正确的配置文件。错误信息：" + err.message);
+        }
+    }
+
+    fr.readAsText(f);
+}
+
+function onExportCustomKeyClick() {
+    let fileContent = JSON.stringify(getAllKeysMap(), null, 2);
+    doDownload(fileContent, "数字统计.自定义字符按钮.json");
+}
+
 window.onload = function () {
 
     document.querySelector("#btn-start").addEventListener("click", numberTime);
@@ -603,4 +678,8 @@ window.onload = function () {
     pasteInput.addEventListener("input", onPasteInputInput);
     btnParseKeyText.addEventListener("click", onBtnParseKeyTextClick);
     btnConfirmPaste.addEventListener("click", onBtnConfirmPasteClick);
+
+    // 监听导入、导出
+    importCustomKeyInput.addEventListener("change", onSelectCustomKeyFile);
+    exportCustomKey.addEventListener("click", onExportCustomKeyClick)
 }
