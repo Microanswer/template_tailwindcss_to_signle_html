@@ -34,8 +34,10 @@ module.exports = {
         ]
     },
     devServer: {
+        watchFiles: ["./src/**/*.ejs"],
         open: true,
         compress: true,
+        hot: true,
         port: 3000
     },
     plugins: [
